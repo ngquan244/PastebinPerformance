@@ -56,7 +56,7 @@ venv\Scripts\activate    # Trên Windows
 pip install -r requirements.txt
 ```
 
-## 🚦 Cách chạy dự án
+##  Cách chạy dự án
 
 ### 1. Khởi chạy server
 ```bash
@@ -70,11 +70,11 @@ locust
 ```
 Sau đó, truy cập `http://localhost:8089` để theo dõi kết quả.
 
-## 📊 Kết quả đo lường
+##  Kết quả đo lường
 Các chỉ số hiệu suất sẽ được hiển thị trên giao diện Locust, giúp đánh giá khả năng xử lý của hệ thống.
 
 ## 📌 Liên hệ
 Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, hãy liên hệ qua GitHub Issues hoặc email của tôi.
 
-📧 Email: smisumikus@gmail.com
+ Email: smisumikus@gmail.com
 
