@@ -75,3 +75,22 @@ class CustomLoadShape(LoadTestShape):
             if run_time < stage["duration"]:
                 return stage["users"], stage["spawn_rate"]
         return None
+
+
+# Điều hướng đến thư mục dự án
+cd "E:\WorkSpace\Python\Pastebin"
+
+# Khởi tạo Git nếu chưa làm
+git init
+
+# Liên kết với repository vừa tạo
+git remote add origin https://github.com/ngquan244/PastebinPerformance.git
+
+# Thêm toàn bộ file vào Git
+git add .
+
+# Commit lần đầu
+git commit -m "Initial commit"
+
+# Đẩy code lên GitHub
+git push -u origin main
