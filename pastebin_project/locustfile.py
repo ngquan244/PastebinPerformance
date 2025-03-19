@@ -4,6 +4,7 @@ import json
 import psutil
 import time
 from locust import events
+import os
 
 @events.test_start.add_listener
 def on_test_start(environment, **kwargs):
@@ -14,12 +15,17 @@ def on_test_start(environment, **kwargs):
 def on_test_stop(environment, **kwargs):
     print("Stopping resource monitoring...")
 
+
+process = psutil.Process(os.getpid())
+
 @events.request.add_listener
 def on_request_success(request_type, name, response_time, response_length, **kwargs):
-    cpu_usage = psutil.cpu_percent()
-    ram_usage = psutil.virtual_memory().percent
-    print(f"CPU: {cpu_usage}%, RAM: {ram_usage}%")
+    cpu_usage = process.cpu_percent(interval=1)  # CPU sử dụng (%)
+    cpu_time = process.cpu_times().user + process.cpu_times().system  # CPU theo giây
+    ram_usage_mb = process.memory_info().rss / (1024 * 1024)  # RAM (MB)
+    ram_usage_gb = process.memory_info().rss / (1024 * 1024 * 1024)  # RAM (GB)
 
+    print(f"CPU: {cpu_usage}%, CPU Time: {cpu_time:.2f} sec, RAM: {ram_usage_mb:.2f} MB ({ram_usage_gb:.2f} GB)")
 
 class PastebinUser(HttpUser):
     host = "http://127.0.0.1:8000"
@@ -62,11 +68,18 @@ class PastebinUser(HttpUser):
         #     print(f"Failed to create paste: {response.status_code} - {response.text}")
 
 class CustomLoadShape(LoadTestShape):
-
     stages = [
+        # Tải thấp: 10-50 user
         {"duration": 30, "users": 10, "spawn_rate": 2},
         {"duration": 60, "users": 50, "spawn_rate": 5},
-        {"duration": 90, "users": 100, "spawn_rate": 10},
+
+        # Tải trung bình: 100-200 user
+        {"duration": 120, "users": 100, "spawn_rate": 10},
+        {"duration": 180, "users": 200, "spawn_rate": 20},
+
+        # Tải cao: 500-1000 user
+        {"duration": 240, "users": 500, "spawn_rate": 50},
+        {"duration": 300, "users": 1000, "spawn_rate": 100},
     ]
 
     def tick(self):
@@ -74,6 +87,6 @@ class CustomLoadShape(LoadTestShape):
         for stage in self.stages:
             if run_time < stage["duration"]:
                 return stage["users"], stage["spawn_rate"]
-        return None
+        return None, None  # Dừng test khi hoàn thành
 
 
