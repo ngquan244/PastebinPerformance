@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastebin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+        /* Main Content */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 250px; /* Bù cho sidebar */
+    height: 100vh;
+}
+
+.form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    display: flex;
+    flex-direction: column; /* Đảm bảo mỗi textbox trên một dòng */
+    gap: 10px; /* Tạo khoảng cách giữa các dòng */
+}
+
+.form-container label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input, textarea, select, button {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#password_field {
+    display: none;
+}
+
+    </style>
+    <script>
+        function togglePasswordInput() {
+            var checkbox = document.getElementById("require_password");
+            var passwordField = document.getElementById("password_field");
+            passwordField.style.display = checkbox.checked ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Pastebin</h2>
+        <a href="/">➕ Tạo Paste</a>
+        <a href="/pastes">📋 Danh sách Paste</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="form-container">
+            <h2>📝 Tạo Paste</h2>
+            <form method="POST">
+                {% csrf_token %}
+
+                <label for="title"><b>Tiêu đề:</b></label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="content"><b>Nội dung:</b></label>
+                <textarea id="content" name="content" rows="5" required></textarea>
+
+                <label for="expiration_time"><b>Thời gian hiệu lực:</b></label>
+                <select id="expiration_time" name="expiration_time">
+                    <option value="12s">12 giây</option>
+                    <option value="1m">1 phút</option>
+                    <option value="10m">10 phút</option>
+                    <option value="1h">1 giờ</option>
+                    <option value="1d">1 ngày</option>
+                    <option value="1w">1 tuần</option>
+                    <option value="never">Không bao giờ hết hạn</option>
+                </select>
+
+                <button type="submit">Tạo Paste</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+{% block content %}
+    <div class="sidebar">
+        <h2>Pastebin</h2>
+        <a href="/">➕ Tạo Paste</a>
+        <a href="/pastes">📋 Danh sách Paste</a>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <h2>{{ paste.title }}</h2>
+            <div class="paste-box">
+                <pre>{{ paste.content }}</pre>
+            </div>
+            <p id="views-count">👁️ Lượt xem: {{ views }}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    async function updateViews(pasteId) {
+    try {
+        let response = await fetch(`/paste/${pasteId}/?no_count=1`);
+        let data = await response.json();
+        document.getElementById("views-count").innerText = "👁️ Lượt xem: " + data.views;
+    } catch (error) {
+        console.error("Lỗi khi cập nhật lượt xem:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => updateViews("{{ paste.id }}"), 100); // Delay nhẹ để tránh lỗi race condition
+});
+
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+    .content {
+        margin-left: 270px;
+        padding: 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        text-align: left;
+        max-width: 800px;
+        width: 100%;
+    }
+
+    .paste-box {
+        padding: 15px;
+        background: #eef;
+        border-left: 4px solid #2196F3;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    #views-count {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pastebin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .delete-btn:hover {
+            background: darkred;
+        }
+    </style>
+    <script>
+        async function deletePaste(pasteId, rowElement) {
+            if (!confirm("Bạn có chắc chắn muốn xóa paste này?")) return;
+            try {
+                let response = await fetch(`/paste/${pasteId}/delete/`, {
+                    method: "POST",
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" }
+                });
+                if (response.ok) rowElement.remove();
+                else alert("Lỗi khi xóa paste!");
+            } catch (error) {
+                console.error("Lỗi khi gửi yêu cầu xóa:", error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Pastebin</h2>
+        <a href="/">➕ Tạo Paste</a>
+        <a href="/pastes">📜 Danh sách Paste</a>
+    </div>
+    <div class="content">
+        <div class="container">
+            <h1>🚫 Paste này đã hết hạn hoặc không tồn tại.</h1>
+            <p>Vui lòng tạo một paste mới hoặc kiểm tra lại liên kết.</p>
+            <a href="/" class="delete-btn">Quay lại trang chủ</a>
+        </div>
+    </div>
+</body>
+</html>
