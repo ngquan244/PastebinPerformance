@@ -1,7 +1,7 @@
 # Pastebin
 
 ## Giới thiệu
-Đây là một hệ thống Pastebin Monolith đơn giản với mục tiêu đánh giá hiệu suất sử dụng công cụ Locust. Hệ thống được thiết kế nhằm cung cấp một nền tảng pastebin Monolith đơn giản, cho phép người dùng tạo, lưu trữ, và quản lý các đoạn văn bản (paste). Để đảm bảo hiệu suất tối ưu và khả năng mở rộng, em đã thực hiện kiểm thử tải bằng Locust nhằm đo lường các chỉ số quan trọng như thời gian phản hồi, thông lượng, mức sử dụng tài nguyên và khả năng mở rộng khi số lượng người dùng tăng lên.
+  Đây là một hệ thống Pastebin Monolith đơn giản với mục tiêu đánh giá hiệu suất sử dụng công cụ Locust. Hệ thống được thiết kế nhằm cung cấp một nền tảng pastebin Monolith đơn giản, cho phép người dùng tạo, lưu trữ, và quản lý các đoạn văn bản (paste). Để đảm bảo hiệu suất tối ưu và khả năng mở rộng, em đã thực hiện kiểm thử tải bằng Locust nhằm đo lường các chỉ số quan trọng như thời gian phản hồi, thông lượng, mức sử dụng tài nguyên và khả năng mở rộng khi số lượng người dùng tăng lên.
 
 ## Tính năng chính
 - Cho phép người dùng tạo, lưu trữ và truy xuất văn bản.
